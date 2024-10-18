@@ -69,7 +69,7 @@ int main() {
             }
             std::cout << commands[commands.size() - 1] << std::endl;
         } else if (command == "type") {
-            std::vector<std::string> known_type = {"type", "exit", "echo"};
+            std::vector<std::string> known_type = {"type", "exit", "echo","pwd"};
             bool is_shell_builtin = false;
             for (auto &it: known_type) {
                 if (it == Arguments[0]) {
@@ -87,7 +87,11 @@ int main() {
                     std::cout << input.substr(5) << " is " << path << std::endl;
                 }
             }
-        } else {
+        }else if (command == "pwd") {
+
+            std::cout << std::filesystem::current_path().string() << std::endl;
+        }
+        else {
             std::string executable_path;
             std::string path_string = getenv("PATH");
             std::vector<std::string> path = split_string(path_string, ':');
