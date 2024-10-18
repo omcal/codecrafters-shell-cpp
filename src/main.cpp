@@ -2,14 +2,26 @@
 #include <map>
 #include <sstream>
 #include <vector>
+#include <filesystem>
 
-enum commands
-{
-  type,
-  echo,
-  cd,
-  quit
-};
+std::string get_paths(std::string command) {
+    std::string path_env = std::getenv("PATH");
+    std::stringstream ss(path_env);
+
+    std::string path;
+    while (!ss.eof()) {
+        getline(ss, path, ':');
+        std::string abs_path = path + "/" + command;
+
+        if (std::filesystem::exists(abs_path)) {
+
+            return abs_path;
+        }
+
+    }
+    return "";
+}
+
 int main() {
     // Flush after every std::cout / std:cerr
     while (true) {
@@ -29,7 +41,7 @@ int main() {
         if (input == "exit 0") {
             exit(0);
         }
-        std::string  command=commands[0];
+        std::string command = commands[0];
         std::vector<std::string> Arguments(commands.begin() + 1, commands.end());
         if (command == "echo") {
 
@@ -37,23 +49,26 @@ int main() {
                 std::cout << commands[i] << " ";
             }
             std::cout << commands[commands.size() - 1] << std::endl;
-        }else if (command=="type"){
-            std::vector<std::string> known_type = {"type", "exit", "echo","cat"};
+        } else if (command == "type") {
+            std::vector<std::string> known_type = {"type", "exit", "echo"};
             bool is_shell_builtin = false;
-            for (auto& it: known_type) {
+            for (auto &it: known_type) {
                 if (it == Arguments[0]) {
                     is_shell_builtin = true;
                     break;
                 }
             }
-            if (Arguments[0]=="cat"){
-                std::cout << Arguments[0] << " is /bin/cat" << std::endl;
-            }else if (is_shell_builtin) {
-                std::cout <<Arguments[0] << " is a shell builtin" << std::endl;
-            }else {
-                std::cout << Arguments[0] << ": not found\n";
-        }
-        }else {
+            if (is_shell_builtin) {
+                std::cout << Arguments[0] << " is a shell builtin" << std::endl;
+            } else {
+                std::string path = get_paths(Arguments[0]);
+                if (path.empty()) {
+                    std::cout << Arguments[0] << ": not found\n";
+                } else {
+                    std::cout << input.substr(5) << " is " << path << std::endl;
+                }
+            }
+        } else {
             std::cout << input << ": command not found" << std::endl;
         }
     }
