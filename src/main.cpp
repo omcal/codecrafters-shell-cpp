@@ -91,6 +91,10 @@ int main() {
 
             std::cout << std::filesystem::current_path().string() << std::endl;
         }else if (command=="cd"){
+            if (commands[1].substr(0,2)=="./"){
+                commands[1].erase(0,1);
+                commands[1].insert(0,std::filesystem::current_path().string());
+            }
             if (std::filesystem::exists(commands[1])){
                 std::filesystem::current_path(commands[1]);
             }else{
