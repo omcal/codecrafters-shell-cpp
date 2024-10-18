@@ -69,7 +69,7 @@ int main() {
             }
             std::cout << commands[commands.size() - 1] << std::endl;
         } else if (command == "type") {
-            std::vector<std::string> known_type = {"type", "exit", "echo","pwd"};
+            std::vector<std::string> known_type = {"type", "exit", "echo","pwd","cd"};
             bool is_shell_builtin = false;
             for (auto &it: known_type) {
                 if (it == Arguments[0]) {
@@ -90,6 +90,12 @@ int main() {
         }else if (command == "pwd") {
 
             std::cout << std::filesystem::current_path().string() << std::endl;
+        }else if (command=="cd"){
+            if (std::filesystem::exists(Arguments[1])){
+                std::filesystem::current_path(Arguments[1]);
+            }else{
+                std::cout << Arguments[1] << ": No such file or directory" << std::endl;
+            }
         }
         else {
             std::string executable_path;
