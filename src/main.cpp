@@ -95,6 +95,11 @@ int main() {
                 commands[1].erase(0,1);
                 commands[1].insert(0,std::filesystem::current_path().string());
             }
+            if (commands[1].substr(0,1) == "~"){
+                commands[1].erase(0,1);
+                commands[1].insert(0, getenv("HOME"));
+
+            }
             if (std::filesystem::exists(commands[1])){
                 std::filesystem::current_path(commands[1]);
             }else{
