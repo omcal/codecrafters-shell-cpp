@@ -91,10 +91,10 @@ int main() {
 
             std::cout << std::filesystem::current_path().string() << std::endl;
         }else if (command=="cd"){
-            if (std::filesystem::exists(Arguments[1])){
-                std::filesystem::current_path(Arguments[1]);
+            if (std::filesystem::exists(commands[1])){
+                std::filesystem::current_path(commands[1]);
             }else{
-                std::cout << Arguments[1] << ": No such file or directory" << std::endl;
+                std::cout << commands[1] << ": No such file or directory" << std::endl;
             }
         }
         else {
