@@ -10,9 +10,9 @@ int main() {
         std::cout << "$ ";
         std::string input;
         std::getline(std::cin,input);
-        std::map<std::string, int>::iterator it = mp.begin();
-
-        
+        if (input=="exit 0"){
+            exit(0);
+        }
         std::cout<<input<<": command not found"<<std::endl;
 
     }
