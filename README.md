@@ -12,7 +12,6 @@ REPLs, builtin commands, and more.
 [codecrafters.io](https://codecrafters.io) to try the challenge.
 
 # Passing the first stage
-Bu bir testtir
 
 The entry point for your `shell` implementation is in `src/main.cpp`. Study and
 uncomment the relevant code, and push your changes to pass the first stage:
